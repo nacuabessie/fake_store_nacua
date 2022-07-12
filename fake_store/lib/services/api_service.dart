@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:fake_store/models/cart.dart';
 import 'package:fake_store/models/product.dart';
 import 'package:http/http.dart' as http;
 
@@ -30,6 +31,28 @@ class ApiService {
         }
       }
       return products;
+    }).catchError((err) => print(err));
+  }
+
+    Future<Product> getProduct(int id) async {
+    return http.get(Uri.parse('$baseUrl/products/$id')).then((data) {
+      Product product = Product();
+      if (data.statusCode == 200) {
+        final jsonData = json.decode(data.body);
+        product = Product.fromJson(jsonData);
+      }
+      return product;
+    }).catchError((err) => print(err));
+  }
+
+  Future<Cart?> getCart(String userId) async {
+    return http.get(Uri.parse('$baseUrl/carts/$userId')).then((data) {
+      Cart cart = Cart();
+      if (data.statusCode == 200) {
+        final jsonData = json.decode(data.body);
+        cart = Cart.fromJson(jsonData);
+      }
+      return cart;
     }).catchError((err) => print(err));
   }
   
