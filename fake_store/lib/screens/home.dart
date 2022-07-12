@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 
 import '../models/product.dart';
 import '../services/api_service.dart';
@@ -8,7 +9,7 @@ import 'product_detail.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({Key? key}) : super(key: key);
-  ApiService apiService = ApiService();
+  ApiService get service => GetIt.I<ApiService>();
 
   @override
   Widget build(BuildContext context) {
@@ -20,10 +21,11 @@ class HomeScreen extends StatelessWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.view_list),
-            onPressed: () => Navigator.push(
-              context,
-              MaterialPageRoute(builder: (_) =>  AllCategoryScreen()),
-            ),
+            onPressed: () => {}
+            // Navigator.push(
+            //   context,
+            //   MaterialPageRoute(builder: (_) =>  AllCategoryScreen()),
+            // ),
           ),
           IconButton(
             icon: const Icon(Icons.shopping_cart),
@@ -38,7 +40,7 @@ class HomeScreen extends StatelessWidget {
       ),
       body: Center(
         child: FutureBuilder(
-            future: apiService.getAllProducts(),
+            future: service.getAllProducts(),
             builder: (_, AsyncSnapshot<List<Product>> snapshot) {
               if (!snapshot.hasData) {
                 return const CircularProgressIndicator();
@@ -50,18 +52,18 @@ class HomeScreen extends StatelessWidget {
                 itemBuilder: ((context, index) {
                   final product = snapshot.data![index];
                   return ListTile(
-                    title: Text(product.title![index]),
+                    title: Text(product.title!),
                     leading: Image.network(
-                      '[image]',
+                      product.image ?? '',
                       height: 50,
                       width: 50,
                     ),
-                    subtitle: Text(product.title![index]),
+                    subtitle: Text('\$${product.price}'),
                     onTap: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (_) => ProductDetailScreen(id: product.id!),
+                          builder: (_) => ProductDetailScreen(id: index + 1),
                         ),
                       );
                     },

@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 
 class ApiService {
   static const String baseUrl = 'https://fakestoreapi.com';
+  static const headers = {'Content-type': 'application/json'};
 
   Future login(String username, String password) async {
     final body = {
@@ -30,12 +31,25 @@ class ApiService {
     }).catchError((err) => print(err));
   }
 
-  Future<List<Product>> getAllProducts() async {
-    return http.get(Uri.parse('$baseUrl/products')).then((data) {
+  // Future<List<String>> getAllCategories() {
+  //   return http.get(Uri.parse('$baseUrl/products/categories')).then((data) {
+  //     final categories = <String>[];
+  //     if (data.statusCode == 200) {
+  //       final jsonData = json.decode(data.body);
+
+  //       for (var category in jsonData) {
+  //         categories.add(category);
+  //       }
+  //     }
+  //     return categories;
+  //   }).catchError((err) => print(err));
+  // }
+
+Future<List<Product>> getAllProducts() async {
+    return http.get(Uri.parse('$baseUrl/products'), headers: headers).then((data) {
       final products = <Product>[];
       if (data.statusCode == 200) {
         final jsonData = json.decode(data.body);
-
         for (var product in jsonData) {
           products.add(Product.fromJson(product));
         }
@@ -44,7 +58,7 @@ class ApiService {
     }).catchError((err) => print(err));
   }
 
-    Future<Product> getProduct(int id) async {
+  Future<Product> getProduct(int id) async {
     return http.get(Uri.parse('$baseUrl/products/$id')).then((data) {
       Product product = Product();
       if (data.statusCode == 200) {
@@ -71,8 +85,7 @@ class ApiService {
       if (data.statusCode == 204) {
         return true;
       }
-    return false;
+      return false;
     }).catchError((err) => print(err));
   }
-  
 }
