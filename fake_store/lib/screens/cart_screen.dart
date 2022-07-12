@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-
 import '../models/cart.dart';
 import '../models/product.dart';
 import '../services/api_service.dart';
@@ -64,7 +63,7 @@ class CartScreen extends StatelessWidget {
                       icon: const Icon(Icons.delete, color: Colors.red),
                       onPressed: () async {
                         final deleteResult = await service.deleteCart('1');
-                        if(deleteResult) {
+                         {
                           // ignore: use_build_context_synchronously
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
