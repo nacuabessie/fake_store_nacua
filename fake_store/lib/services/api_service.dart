@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:fake_store/models/cart.dart';
+import 'package:fake_store/models/cart_update.dart';
 import 'package:fake_store/models/product.dart';
 import 'package:http/http.dart' as http;
 
@@ -90,6 +91,21 @@ Future<List<Product>> getAllProducts() async {
     }).catchError((err) => print(err));
   }
 
+
+  Future<void> updateCart(int cartId, int productId) {
+    final cartUpdate =
+        CartUpdate(userId: cartId, date: DateTime.now(), products: [
+      {'productId': productId, 'quantity': 1}
+    ]);
+    return http.put(Uri.parse('$baseUrl/carts/$cartId'), headers: headers,  body: json.encode(cartUpdate.toJson())).then((data) {
+      if (data.statusCode == 200) {
+        final jsonData = json.decode(data.body);
+        print(data.statusCode);
+        print(jsonData);
+      }
+    }).catchError((err) => print(err));
+  
+  
   Future<List<Product>> getProductsByCategory(String categoryName) async {
     return http.get(Uri.parse('$baseUrl/products/category/$categoryName'), headers: headers).then((data) {
       final products = <Product>[];
@@ -103,5 +119,6 @@ Future<List<Product>> getAllProducts() async {
       }
       return products;
     });
+
   }
 }
