@@ -43,10 +43,10 @@ class AllCategoryScreen extends StatelessWidget {
                     child: Container(
                       padding: const EdgeInsets.all(40),
                       child: Center(
-                        child: Text(
-                          categoryName,
-                          style: const TextStyle(
-                            fontSize: 25,
+                        child: Text( 'Go'
+                          // categoryName,
+                          // style: const TextStyle(
+                          //   fontSize: 25,
                           ),
                         ),
                       ),

@@ -6,6 +6,16 @@ import 'package:http/http.dart' as http;
 class ApiService {
   static const String baseUrl = 'https://fakestoreapi.com';
 
+  Future login(String username, String password) async {
+    final body = {
+      'username': username,
+      'password': password,
+    };
+
+    final response = await http.post(Uri.parse(baseUrl), body: body);
+    return response.body;
+  }
+
   Future<List<String>> getAllCategories() {
     return http.get(Uri.parse('$baseUrl/products/categories')).then((data) {
       final categories = <String>[];
