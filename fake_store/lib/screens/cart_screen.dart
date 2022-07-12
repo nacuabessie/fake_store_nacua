@@ -33,7 +33,7 @@ class CartScreen extends StatelessWidget {
 
           final products = cartSnapshot.data!.products;
           return ListView.separated(
-            itemCount: products.length,
+            itemCount: products!.length,
             separatorBuilder: (_, __) => const Divider(thickness: 1),
             itemBuilder: (_, index) {
               final product = products[index];
@@ -57,17 +57,20 @@ class CartScreen extends StatelessWidget {
                       height: 40,
                     ),
                     subtitle: Text(
-                      'Quantity: '[$quantity]',
+                      'Quantity: ${product.quantity}',
                     ),
                     trailing: IconButton(
                       icon: const Icon(Icons.delete, color: Colors.red),
                       onPressed: () async {
-                        await deleteCart('1');
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Cart deleted successfully.'),
-                          ),
-                        );
+                        final deleteResult = await service.deleteCart('1');
+                        if(deleteResult) {
+                          // ignore: use_build_context_synchronously
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Cart deleted successfully.'),
+                            ),
+                          );
+                        }
                       },
                     ),
                   );
