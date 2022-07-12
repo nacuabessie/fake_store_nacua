@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 
 import '../models/cart.dart';
 import '../models/product.dart';
 import '../services/api_service.dart';
 
 class CartScreen extends StatelessWidget {
-  const CartScreen({Key? key}) : super(key: key);
+  CartScreen({Key? key}) : super(key: key);
+  ApiService get service => GetIt.I<ApiService>();
+
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +19,7 @@ class CartScreen extends StatelessWidget {
         backgroundColor: Colors.red,
       ),
       body: FutureBuilder(
-        future: getCart('1'),
+        future: service.getCart('1'),
         builder: (BuildContext context, AsyncSnapshot<Cart?> cartSnapshot) {
           if (!cartSnapshot.hasData) {
             return const Center(child: CircularProgressIndicator());
@@ -35,7 +38,7 @@ class CartScreen extends StatelessWidget {
             itemBuilder: (_, index) {
               final product = products[index];
               return FutureBuilder(
-                future: getProduct(product.productId),
+                future: service.getProduct(product.productId!),
                 builder: (BuildContext context,
                     AsyncSnapshot<Product?> productSnapshot) {
                   if (!productSnapshot.hasData) {
@@ -48,9 +51,9 @@ class CartScreen extends StatelessWidget {
                   }
 
                   return ListTile(
-                    title: Text(p.title),
+                    title: Text(p.title!),
                     leading: Image.network(
-                      '[image]',
+                      p.image!,
                       height: 40,
                     ),
                     subtitle: Text(
