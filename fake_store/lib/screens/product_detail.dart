@@ -42,7 +42,7 @@ class ProductDetailScreen extends StatelessWidget {
                 children: [
                   const SizedBox(height: 30),
                   Image.network(
-                    '[image]',
+                    product.image!,
                     height: 200,
                     width: double.infinity,
                   ),

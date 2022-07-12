@@ -55,5 +55,14 @@ class ApiService {
       return cart;
     }).catchError((err) => print(err));
   }
+
+  Future<bool> deleteCart(String id) async {
+    return http.delete(Uri.parse('$baseUrl/carts/$id')).then((data) {
+      if (data.statusCode == 204) {
+        return true;
+      }
+    return false;
+    }).catchError((err) => print(err));
+  }
   
 }
