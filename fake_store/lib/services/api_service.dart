@@ -91,6 +91,7 @@ Future<List<Product>> getAllProducts() async {
     }).catchError((err) => print(err));
   }
 
+
   Future<void> updateCart(int cartId, int productId) {
     final cartUpdate =
         CartUpdate(userId: cartId, date: DateTime.now(), products: [
@@ -103,5 +104,21 @@ Future<List<Product>> getAllProducts() async {
         print(jsonData);
       }
     }).catchError((err) => print(err));
+  
+  
+  Future<List<Product>> getProductsByCategory(String categoryName) async {
+    return http.get(Uri.parse('$baseUrl/products/category/$categoryName'), headers: headers).then((data) {
+      final products = <Product>[];
+      if(data.statusCode == 200) {
+        final jsonData = json.decode(data.body);
+        for(var item in jsonData) {
+          if(item['category'] == categoryName) {
+            products.add(Product.fromJson(item));
+          }
+        }
+      }
+      return products;
+    });
+
   }
 }

@@ -1,11 +1,13 @@
 import 'package:fake_store/screens/products_by_category.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 
 import '../services/api_service.dart';
 
 class AllCategoryScreen extends StatelessWidget {
   AllCategoryScreen({Key? key}) : super(key: key);
-  ApiService apiService = ApiService();
+  // ApiService apiService = ApiService();
+  ApiService get service => GetIt.I<ApiService>();
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +18,7 @@ class AllCategoryScreen extends StatelessWidget {
         backgroundColor: Colors.red,
       ),
       body: FutureBuilder(
-        future: apiService.getAllCategories(),
+        future: service.getAllCategories(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (!snapshot.hasData) {
             return const Center(child: CircularProgressIndicator());
@@ -32,26 +34,26 @@ class AllCategoryScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(15),
                   ),
                   child: InkWell(
-                    // onTap: () => Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //     builder: (_) => ProductsByCategoryScreen(
-                    //       categoryName: categoryName,
-                    //     ),
-                    //   ),
-                    // ),
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => ProductsByCategoryScreen(
+                          categoryName: categories[index],
+                        ),
+                      ),
+                    ),
                     child: Container(
                       padding: const EdgeInsets.all(40),
                       child: Center(
-                        child: Text( 'Go'
-                          // categoryName,
-                          // style: const TextStyle(
-                          //   fontSize: 25,
+                        child: Text( 
+                          categories[index],
+                          style: const TextStyle(
+                            fontSize: 25,
                           ),
                         ),
                       ),
                     ),
-                  );              
+                  ));              
               });
         },
       ),
