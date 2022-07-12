@@ -19,7 +19,7 @@ class ProductsByCategoryScreen extends StatelessWidget {
         backgroundColor: Colors.red,
       ),
       body: FutureBuilder(
-        future: getProductsByCategory(categoryName),
+        // future: getProductsByCategory(categoryName),
         builder: (BuildContext context, AsyncSnapshot<List<Product>> snapshot) {
           if (!snapshot.hasData) {
             return const Center(child: CircularProgressIndicator());
@@ -39,12 +39,12 @@ class ProductsByCategoryScreen extends StatelessWidget {
                 ),
                 subtitle: Text('\$price'),
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => ProductDetailScreen(id: productId),
-                    ),
-                  );
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //     builder: (_) => ProductDetailScreen(id: productId),
+                  //   ),
+                  // );
                 },
               );
             }),
